@@ -1,39 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 namespace Src\Ext\Bin;
 
-final class NeutrinoApiBinlist implements iBin{
-	
-	private $number;
-	private $data_returned;
-	private $data_object;
+use Src\Functions\APICaller;
+
+final class NeutrinoApiBinlist extends APICaller implements iBin{
 	
 	public function _call($number){
-		$this->number = $number;
-		
 		$postData = array(
-			"user-id" => "android.gmanghi",
-			"api-key" => "xy4OukSaTlTRF8ZYxNNEF6F30jSeW4xNZitL6MWTIfFAedCS",
-			"ip" => "162.209.104.195"
+			"user-id" => "vecahe6587",
+			"api-key" => "GLmEV80Pw5WDJdUHaUU7QLHqA3oFmPTiPTt5XSijuLlRlU6A",
+			"bin-number" => $number
 		);
-		
-		$ch = curl_init("https://neutrinoapi.net/ip-info");
-		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($postData));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$this->data_returned = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close($ch);
-		if ($err) {
-			return false;
-		} else {
-			$this->data_object = json_decode($this->data_returned, true);
-		}
-		
-		return true;
+
+		$curlopt_array = array(
+			CURLOPT_URL => "https://neutrinoapi.net/bin-lookup",
+			CURLOPT_POST => 1,
+			CURLOPT_POSTFIELDS => $postData,
+			CURLOPT_RETURNTRANSFER => 1
+		);
+
+		return $this->_api_call(
+			getcwd().'/files/Bin/NeutrinoApiBinlist'.$number.'.txt', 
+			$curlopt_array, 
+			getenv('ENV')
+		);
 	}
 	
 	public function get_country_alpha2(){
-		return $this->data_object['country-code'];
+		return json_decode($this->getDataReturned(),true)['country-code'];
 	}
 	
 }

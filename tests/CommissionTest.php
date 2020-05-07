@@ -2,13 +2,13 @@
 use PHPUnit\Framework\TestCase;
 use Src\Modules\Commissions;
 use Src\Ext;
-final class CommissionsTest extends TestCase
+final class CommissionTest extends TestCase
 {
     public function testCanCalculateFromValidJsonWithCorrectAndCompleteParameters(): void
     {
 		$json_params = '{"bin":"45717360","amount":"100.00","currency":"EUR"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$this->assertGreaterThanOrEqual(0, $commissions->calculate());
     }
@@ -19,7 +19,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"45717360","amount":"100.00","currency":"EUR"';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -30,7 +30,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"amount":"100.00","currency":"EUR"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -41,7 +41,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"ABC","amount":"100.00","currency":"EUR"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -52,7 +52,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"45717360","currency":"EUR"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -63,7 +63,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"45717360","amount":"100.001","currency":"EUR"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -74,7 +74,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"45717360","amount":"100.00"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }
@@ -85,7 +85,7 @@ final class CommissionsTest extends TestCase
 		
 		$json_params = '{"bin":"45717360","amount":"100.00","currency":"123"}';
 		
-		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi2);
+		$commissions = new Commissions($json_params, new Ext\Bin\Binlist, new Ext\Exchange\ExchangeRatesApi);
 		
 		$commissions->calculate();
     }

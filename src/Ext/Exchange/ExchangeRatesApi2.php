@@ -1,29 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 namespace Src\Ext\Exchange;
 
-final class ExchangeRatesApi2 implements iExchange{
-	
-	private $data_returned;
-	private $data_object;
+use Src\Functions\APICaller;
+
+final class ExchangeRatesApi2 extends APICaller implements iExchange{
 	
 	protected $api_key = '36d13602145aa9137dfec0ab';
 	
 	public function _call(){	
-		$ch = curl_init('https://prime.exchangerate-api.com/v5/'.$this->api_key.'/latest/EUR');
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$this->data_returned = curl_exec($ch);
-		$err = curl_error($ch);
-		curl_close($ch);
-		if ($err) {
-			return false;
-		} else {
-			$this->data_object = json_decode($this->data_returned);
-		}		
-		return true;
+
+		$curlopt_array = array(
+			CURLOPT_URL => "https://prime.exchangerate-api.com/v5/".$this->api_key."/latest/EUR",
+			CURLOPT_RETURNTRANSFER => true
+		);
+
+		return $this->_api_call(
+			getcwd().'/files/ExchangeRates/ExchangeRatesApi2.txt',
+			$curlopt_array, 
+			getenv('ENV')
+		);
 	}
 	
 	public function get_rate($currency){
-		return $this->data_object->conversion_rates->{$currency} ?? 0;
+		return $this->getDataObject()->conversion_rates->{$currency} ?? 0;
 	}
 	
 }
